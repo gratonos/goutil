@@ -15,13 +15,10 @@ func FileExists(path string) (bool, error) {
 }
 
 func RemoveIfExists(path string) error {
-	ok, err := FileExists(path)
-	if err != nil {
-		return err
-	}
-	if ok {
-		return os.Remove(path)
-	} else {
+	err := os.Remove(path)
+	if os.IsNotExist(err) {
 		return nil
+	} else {
+		return err
 	}
 }
